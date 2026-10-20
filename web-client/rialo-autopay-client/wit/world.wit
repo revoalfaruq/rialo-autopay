@@ -1,0 +1,22 @@
+package rialo:rialo-autopay;
+
+interface rialo-autopay {
+    record pubkey {
+        bytes: list<u8>
+    }
+    record account-meta {
+        pubkey: pubkey,
+        is-signer: bool,
+        is-writable: bool,
+    }
+    record instruction {
+        program-id: pubkey,
+        accounts: list<account-meta>,
+        data: list<u8>,
+    }
+    start: func(program-id: pubkey, payer: pubkey, workflow-pda-slug: string) -> result<instruction, string>;
+}
+
+world host {
+    export rialo-autopay;
+}

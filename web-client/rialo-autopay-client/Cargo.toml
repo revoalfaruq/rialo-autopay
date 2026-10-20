@@ -1,0 +1,14 @@
+[package]
+name = "rialo-autopay-client"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]
+
+[dependencies]
+rialo-autopay = { path = "../../artifact" }
+wit-bindgen = { version = "0.47" }

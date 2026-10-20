@@ -1,0 +1,7 @@
+package rialo:rialo-autopay@0.1.0;
+
+use rialo:primitives@0.1.0.{pubkey, lamports, timestamp, error};
+
+world rialo-autopay {
+    export start: func() -> result<_, error>;
+}

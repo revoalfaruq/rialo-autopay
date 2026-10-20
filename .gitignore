@@ -1,0 +1,58 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Node.js
+**/node_modules/
+**/dist/
+
+# Vercel local configuration
+**/.vercel/
+
+# Rust build artifacts
+**/target/
+
+# Local logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local backup files
+*.backup
+*.backup-*
+*.before-*
+*.rpc-backup
+
+# Local build diagnostics and generated artifacts
+/build-diagnostic/
+/build-venus-check/
+
+# Nested local repository
+/rialo-autopay/
+
+# Accidental empty files
+/grep
+/head
+
+# Local build diagnostics and generated artifacts
+/build-diagnostic/
+/build-venus-check/
+
+# Nested local repository
+/rialo-autopay/
+
+# Accidental empty files
+/grep
+/head
+/web/vercel.json.bak

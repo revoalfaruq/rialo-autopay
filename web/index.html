@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rialo AutoPay</title>
+  <style>
+    body {
+      font: 16px system-ui, sans-serif;
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #0f1115;
+      color: #f5f5f5;
+    }
+    .card {
+      background: #181b22;
+      border: 1px solid #303642;
+      border-radius: 16px;
+      padding: 26px;
+    }
+    label { display: block; margin-top: 16px; }
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      margin-top: 7px;
+      padding: 12px;
+      color: #fff;
+      background: #101319;
+      border: 1px solid #454d5b;
+      border-radius: 9px;
+    }
+    button {
+      padding: 12px 16px;
+      margin: 10px 6px 6px 0;
+      border: 0;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    code { overflow-wrap: anywhere; color: #9ecbff; }
+    #status { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .note { color: #c5cad4; font-size: 14px; }
+
+    .section-divider { margin: 28px 0; border: 0; border-top: 1px solid #303642; }
+    .autopay-panel { margin-top: 24px; padding-top: 4px; }
+    .frequency-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
+    .frequency-card { padding: 16px; background: #101319; border: 1px solid #454d5b; border-radius: 12px; }
+    .frequency-card h3 { margin: 0 0 6px; }
+    .frequency-card p { margin: 0; color: #c5cad4; font-size: 13px; }
+    .soon-card { opacity: .55; border-style: dashed; }
+    .soon-label { display: inline-block; margin-top: 10px; padding: 4px 8px; border-radius: 6px; background: #303642; font-size: 11px; font-weight: 700; letter-spacing: .06em; }
+    .primary-button { background: #b8f36b; color: #151a10; }
+    .preview-box { margin-top: 16px; padding: 14px; background: #101319; border: 1px solid #454d5b; border-radius: 10px; overflow-wrap: anywhere; }
+    .preview-box p { margin: 6px 0; }
+    .warning-note { color: #f3d18a; font-size: 13px; }
+    @media (max-width: 480px) {
+      body { margin: 12px auto; padding: 12px; }
+      .card { padding: 18px; }
+      .frequency-grid { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Rialo AutoPay</h1>
+    <p>Transfer demo — Rialo DevNet</p>
+    <p>Network: <strong>Rialo DevNet</strong></p>
+
+    <button id="connect">Connect Wallet</button>
+    <button id="disconnect" disabled>Disconnect</button>
+
+    <p>Wallet: <code id="account">Not connected</code></p>
+
+    <hr>
+
+    <h2>Send RLO</h2>
+    <p class="note">
+      One-time transfer demo. Every transaction requires confirmation and wallet
+      signing. Recurring automatic payments are not implemented yet.
+    </p>
+
+    <label for="recipient">Recipient address</label>
+    <input
+      id="recipient"
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="Recipient's Rialo address"
+    >
+
+    <label for="amount">Amount (RLO)</label>
+    <input
+      id="amount"
+      type="text"
+      inputmode="decimal"
+      placeholder="Example: 0.1"
+    >
+
+    <button id="send" disabled>Send DevNet Transfer</button>
+
+
+    <hr class="section-divider">
+
+    <section id="autopay-section" class="autopay-panel">
+      <h2>AutoPay</h2>
+      <p class="note">
+        Set up recurring payments. Daily is currently in preview mode;
+        the schedule is inactive and no automatic transactions will be sent.
+      </p>
+
+      <div class="frequency-grid">
+        <div class="frequency-card">
+          <h3>Daily</h3>
+          <p>Schedule a payment every day.</p>
+        </div>
+
+        <div class="frequency-card soon-card" aria-disabled="true">
+          <h3>Monthly</h3>
+          <p>Monthly payments will be available in a future release.</p>
+          <span class="soon-label">COMING SOON</span>
+        </div>
+      </div>
+
+      <h3>Daily AutoPay Setup</h3>
+
+      <label for="daily-recipient">Recipient address</label>
+      <input
+        id="daily-recipient"
+        type="text"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Recipient's Rialo address"
+      >
+
+      <label for="daily-amount">Amount per day (RLO)</label>
+      <input
+        id="daily-amount"
+        type="text"
+        inputmode="decimal"
+        placeholder="Example: 0.1"
+      >
+
+      <label for="daily-time">Preferred sending time</label>
+      <input id="daily-time" type="time" value="09:00">
+
+      <label for="daily-timezone">Time zone</label>
+      <input id="daily-timezone" type="text" value="Asia/Jakarta" readonly>
+
+      <button id="daily-preview" class="primary-button" type="button">
+        Preview Daily Schedule
+      </button>
+
+      <div id="daily-preview-result" class="preview-box" aria-live="polite" hidden></div>
+
+      <p class="warning-note">
+        Preview only — no active schedule or payment authorization has been created,
+        and no transaction has been sent. Never enter your seed phrase or private key.
+      </p>
+    </section>
+
+    <p>Status:</p>
+    <div id="status">Ready — connect your wallet first.</div>
+
+    <p>Signature:</p>
+    <code id="signature">—</code>
+
+    <p class="note">
+      Make sure DevNet is active and verify the transaction using the official
+      explorer before treating the payment as successful. Never enter your seed
+      phrase or private key on this page.
+    </p>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
