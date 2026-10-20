@@ -43,6 +43,8 @@ rialo-autopay/
 ├── Cargo.lock
 ├── .gitignore
 └── README.md
+```
+
 ## Getting Started
 
 ### Prerequisites
@@ -59,6 +61,8 @@ npm ci
 npm run build
 npx vite
 cargo metadata --no-deps
+
+```
 
 ## Roadmap
 
