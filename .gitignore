@@ -56,3 +56,6 @@ Thumbs.db
 /grep
 /head
 /web/vercel.json.bak
+
+# Local Vite cache
+.vite/
