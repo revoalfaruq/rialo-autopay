@@ -53,16 +53,36 @@ rialo-autopay/
 - Rust and Cargo
 - Rialo development tools required by the relevant components
 
-### Run the Frontend
+### Install Dependencies
 
 ```bash
 cd web
 npm ci
-npm run build
-npx vite
-cargo metadata --no-deps
-
 ```
+
+### Build the Frontend
+
+```bash
+npm run build
+```
+
+### Start the Development Server
+
+```bash
+npx vite
+```
+
+Run these commands from the `web` directory. Open the local URL printed in the terminal.
+
+### Inspect the Rust Workspace
+
+Run this command from the repository root:
+
+```bash
+cargo metadata --no-deps
+```
+
+The Daily AutoPay preview does not broadcast transactions or guarantee automatic recurring payments.
 
 ## Roadmap
 
